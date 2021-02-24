@@ -48,6 +48,8 @@
         voices = this.getVoices();
         //mapping through voices to populate dropdown
         voicesDropdown.innerHTML = voices
+          //filtering for english languages
+          .filter((voice) => voice.lang.includes('en'))
           .map(
             (voice) =>
               `<option value="${voice.name}">${voice.name} (${voice.lang})</option>`
@@ -70,11 +72,16 @@
         }
       }
 
-      function setOption() {}
+      function setOption() {
+        msg[this.name] = this.value;
+        toggle();
+      }
 
       speechSynthesis.addEventListener('voiceschanged', populateVoices);
       voicesDropdown.addEventListener('change', setVoice);
       options.forEach((option) => option.addEventListener('change', setOption));
+      speakButton.addEventListener('click', toggle);
+      stopButton.addEventListener('click', () => toggle(false));
     </script>
   </body>
 </html>
